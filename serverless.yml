@@ -1,0 +1,24 @@
+service: dsl-google-trends
+
+provider:
+  name: aws
+  runtime: python3.11
+  region: us-east-1
+  profile: dsl-google-trends
+  environment: ${self:custom.vars}
+
+custom:
+  vars: ${file(./serverless.env.yml):${opt:stage, self:provider.stage}}
+
+plugins:
+  - serverless-python-requirements
+  - serverless-offline
+
+functions:
+  google-trends-handler:
+    handler: handler.lambda_handler
+    events:
+      - http:
+          path: search
+          method: get
+          cors: true
