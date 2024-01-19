@@ -9,6 +9,9 @@ provider:
 
 custom:
   vars: ${file(./serverless.env.yml):${opt:stage, self:provider.stage}}
+  serverless-offline:
+    http:
+      timeout: 30000 # Timeout increased to 30 seconds for serverless-offline
 
 plugins:
   - serverless-python-requirements
