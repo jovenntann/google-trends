@@ -25,6 +25,7 @@ def lambda_handler(event, context):
     logger.info(date)
     
     url = f"{serp_url}?engine=google_trends&q={quote(query)}&data_type={data_type}&date={date}&tz={timezone}&geo={geo}&api_key={api_key}"
+    
     logger.info('Constructed URL: %s', url)
 
     headers = {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -35,7 +36,11 @@ def lambda_handler(event, context):
         logger.info('Request successful. Response data: %s', response_data)
         return {
             'statusCode': 200,
-            'body': json.dumps(response_data)
+            'body': json.dumps(response_data),
+            'headers': {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': True,
+            }
         }
     else:
         logger.error('Request failed with status code: %s. Response text: %s', response.status_code, response.text)
