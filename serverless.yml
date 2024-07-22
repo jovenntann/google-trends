@@ -1,4 +1,4 @@
-service: measure-yfinance
+service: measure-yahoo-finance
 
 provider:
   name: aws
