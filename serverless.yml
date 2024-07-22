@@ -1,10 +1,10 @@
-service: dsl-google-trends
+service: measure-yfinance
 
 provider:
   name: aws
   runtime: python3.11
-  region: us-east-1
-  profile: dsl-google-trends
+  region: eu-west-2
+  profile: oldst-main
   environment: ${self:custom.vars}
 
 custom:
@@ -18,10 +18,26 @@ plugins:
   - serverless-offline
 
 functions:
-  google-trends-handler:
+  status-handler:
     handler: handler.lambda_handler
     events:
       - http:
-          path: search
+          path: status
           method: get
+          cors: true
+
+  yfinance-handler:
+    handler: handler.lambda_handler
+    events:
+      - http:
+          path: yfinance
+          method: post
+          cors: true
+
+  yfinance-filter-handler:
+    handler: handler.lambda_handler
+    events:
+      - http:
+          path: yfinance/filter
+          method: post
           cors: true
