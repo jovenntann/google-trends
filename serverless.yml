@@ -17,6 +17,13 @@ plugins:
   - serverless-python-requirements
   - serverless-offline
 
+resources:
+  Resources:
+    ApiGatewayRestApi:
+      Type: AWS::ApiGateway::RestApi
+      Properties:
+        Name: ${self:service}-${opt:stage, self:provider.stage}
+
 functions:
   status-handler:
     handler: handler.lambda_handler
