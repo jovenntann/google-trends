@@ -11,8 +11,6 @@ logger.setLevel(logging.INFO)
 
 
 def lambda_handler(event, context):
-    logger.info(f"Event received: {event}")
-    logger.info(f"Context received: {context}")
 
     if event['httpMethod'] == 'GET' and event['path'] == '/status':
         logger.info("Received GET request for /status")
@@ -36,7 +34,8 @@ def lambda_handler(event, context):
             data = yf.Ticker(isin)
             try:
                 tickers[isin] = data.info['symbol']
-            except:
+            except Exception as e:
+                logger.error(f"Error fetching data for ISIN {isin}: {e}")
                 tickers[isin] = 'NONE'
 
         date = body['date']
